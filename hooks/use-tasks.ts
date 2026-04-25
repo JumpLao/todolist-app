@@ -27,15 +27,19 @@ export function useTasks(): UseTasksReturn {
   useEffect(() => {
     try {
       const loadedTasks = taskStorage.loadTasks();
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Loading initial state from storage on mount is correct
       setTasks(loadedTasks);
 
       // Check if storage is available
       if (!taskStorage.isAvailable()) {
+         
         setError('Local storage is not available. Please enable it in your browser settings.');
       }
-    } catch (e) {
+    } catch {
+       
       setError('Failed to load tasks. Please refresh the page.');
     } finally {
+       
       setIsLoading(false);
     }
   }, []);
@@ -46,6 +50,7 @@ export function useTasks(): UseTasksReturn {
 
     const result = taskStorage.saveTasks(tasks);
     if (!result.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Setting error state in response to storage failure is correct
       setError(result.error || 'Failed to save tasks.');
     }
   }, [tasks, isLoading]);

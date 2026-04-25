@@ -101,7 +101,7 @@ describe('TaskStorageService', () => {
       const setItemMock = jest.fn((key: string, value: string) => {
         // Only throw for the actual storage key, not for the test key
         if (key === STORAGE_KEY) {
-          const error: any = new Error('Quota exceeded');
+          const error = new Error('Quota exceeded') as Error & { name: string };
           error.name = 'QuotaExceededError';
           throw error;
         }

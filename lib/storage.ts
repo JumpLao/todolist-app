@@ -15,7 +15,7 @@ class TaskStorageService {
       localStorage.setItem(testKey, 'test');
       localStorage.removeItem(testKey);
       return true;
-    } catch (e) {
+    } catch {
       return false;
     }
   }
@@ -46,9 +46,9 @@ class TaskStorageService {
           typeof task.completed === 'boolean' &&
           typeof task.createdAt === 'string'
       );
-    } catch (e) {
+    } catch (error) {
       // Corrupt data - return empty array for graceful degradation
-      console.error('Failed to load tasks from localStorage:', e);
+      console.error('Failed to load tasks from localStorage:', error);
       return [];
     }
   }
@@ -100,7 +100,7 @@ class TaskStorageService {
       }
       // Rough estimate: assume 5MB limit (5,000,000 bytes = ~5M chars)
       return Math.min(100, Math.round((total / 5_000_000) * 100));
-    } catch (e) {
+    } catch {
       return 0;
     }
   }
